@@ -3,6 +3,10 @@ package hoopes.keith.examples.hazelcast.clusterboot;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * A properties class is overkill and I know it.
+ * This is just a proof of concept for a more robust
+ * configuration.
+ *
  * Copyright ${year}
  *
  * @author J. Keith Hoopes
@@ -10,7 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("hoopes.cluster")
 public class WeAreStartedProperties{
 
-    private int maxNodes;
+    private int maxNodes = 10;
 
     public WeAreStartedProperties(){
 

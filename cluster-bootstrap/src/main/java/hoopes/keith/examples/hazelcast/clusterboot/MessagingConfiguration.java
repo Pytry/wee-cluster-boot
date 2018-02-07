@@ -22,12 +22,6 @@ import org.springframework.messaging.MessageHandler;
 public class MessagingConfiguration{
 
     @Bean
-    public MessageChannel weAreStartedChannel(){
-
-        return new DirectChannel();
-    }
-
-    @Bean
     @Autowired
     @ServiceActivator(inputChannel = "weAreStartedChannel")
     public MessageHandler weAreStartedHandler(final LeaderInitiator initiator){
@@ -51,10 +45,16 @@ public class MessagingConfiguration{
                 weHazelcastInstance
                     .getMap("we-are-started"));
         producer.setOutputChannel(weAreStartedChannel());
-        producer.setCacheEventTypes("ADDED,REMOVED,UPDATED,CLEAR_ALL");
+        producer.setCacheEventTypes("ADDED,UPDATED");
         producer.setCacheListeningPolicy(CacheListeningPolicyType.SINGLE);
-        producer.setAutoStartup(false);
+        producer.setAutoStartup(false);//Only want leader to use
 
         return producer;
+    }
+
+    @Bean
+    public MessageChannel weAreStartedChannel(){
+
+        return new DirectChannel();
     }
 }

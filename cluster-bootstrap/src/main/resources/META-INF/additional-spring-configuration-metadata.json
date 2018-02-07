@@ -3,7 +3,7 @@
     {
       "name":"hoopes.cluster.maxNodes",
       "type":"java.lang.String",
-      "description":"The number of nodes that will should be created."
+      "description":"Default: 10; The number of nodes that will should be created."
     }
   ]
 }

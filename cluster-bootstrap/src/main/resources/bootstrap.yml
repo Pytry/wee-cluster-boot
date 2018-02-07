@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: simple-cluster
-  cache:
-    type: HAZELCAST
-hoopes:
-  cluster:
-    maxNodes: 10
-

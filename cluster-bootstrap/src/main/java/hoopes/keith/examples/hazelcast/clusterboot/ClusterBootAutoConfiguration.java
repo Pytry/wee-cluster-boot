@@ -18,5 +18,5 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(WeAreStartedProperties.class)
 @ComponentScan("hoopes.keith.examples.hazelcast.clusterboot")
 public class ClusterBootAutoConfiguration{
-//Should probably add some @OnConditionals here
+    //Should probably add some @OnConditionals here
 }

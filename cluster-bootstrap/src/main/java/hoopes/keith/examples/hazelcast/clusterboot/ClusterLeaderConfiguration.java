@@ -27,9 +27,12 @@ public class ClusterLeaderConfiguration{
     @Bean
     @Autowired
     public LeaderInitiator initiator(
-        @Qualifier("weLeaderCandidate") final Candidate weLeaderCandidate,
-        @Qualifier("leaderEventPublisher") final LeaderEventPublisher leaderEventPublisher,
-        @Qualifier("weHazelcastInstance") final HazelcastInstance hazelcastInstance){
+        @Qualifier("weLeaderCandidate")
+        final Candidate weLeaderCandidate,
+        @Qualifier("leaderEventPublisher")
+        final LeaderEventPublisher leaderEventPublisher,
+        @Qualifier("weHazelcastInstance")
+        final HazelcastInstance hazelcastInstance){
 
         LeaderInitiator leaderInitiator = new LeaderInitiator(hazelcastInstance, weLeaderCandidate);
         leaderInitiator.setLeaderEventPublisher(leaderEventPublisher);

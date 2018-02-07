@@ -4,6 +4,10 @@ import com.hazelcast.config.*;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 
+import java.util.List;
+
+import static java.util.Arrays.*;
+
 /**
  * Note: I'm not sure if it exists, but it would be
  * nice to have a Spring Boot project with an
@@ -25,22 +29,52 @@ public final class WeHazelBuilder{
 
     public static HazelcastInstance build(final WeAreStartedProperties weAreStartedProperties){
 
-        return Hazelcast.newHazelcastInstance(weHazelcastConfig(weAreStartedProperties));
+        return Hazelcast
+            .newHazelcastInstance(
+                weHazelcastConfig(
+                    weAreStartedProperties
+                ));
     }
 
     private static Config weHazelcastConfig(final WeAreStartedProperties weAreStartedProperties){
 
-        return new Config()
-            .setGroupConfig(groupConfig())
-            .setNetworkConfig(networkConfig())
-            .setProperty(
+        return memberAttributeConfig(
+            new Config()
+                .setGroupConfig(groupConfig())
+                .setNetworkConfig(networkConfig())
+                .setListenerConfigs(listenerConfigs()),
+            weAreStartedProperties);
+    }
+
+    private static Config memberAttributeConfig(final Config config, final WeAreStartedProperties weAreStartedProperties){
+
+        assert config != null;
+        assert weAreStartedProperties != null;
+
+        config
+            .getMemberAttributeConfig()
+            .setIntAttribute(
                 "maxNodes",
-                "" + weAreStartedProperties.getMaxNodes());
+                weAreStartedProperties.getMaxNodes()
+            );
+        return config;
+    }
+
+    private static List<ListenerConfig> listenerConfigs(){
+
+        return asList(
+            new ListenerConfig()
+                .setClassName(
+                    ClusterMemberStartedListener.class.getName())
+                .setImplementation(
+                    new ClusterMemberStartedListener()));
     }
 
     private static NetworkConfig networkConfig(){
 
-        return new NetworkConfig().setJoin(joinConfig());
+        return new NetworkConfig()
+            .setJoin(
+                joinConfig());
     }
 
     private static JoinConfig joinConfig(){

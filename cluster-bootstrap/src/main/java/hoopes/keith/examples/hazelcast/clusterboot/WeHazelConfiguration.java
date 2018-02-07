@@ -18,7 +18,8 @@ public class WeHazelConfiguration{
 
     @Bean("weHazelcastInstance")
     @Autowired
-    public static HazelcastInstance weHazelcastInstance(final WeAreStartedProperties weAreStartedProperties){
+    public static HazelcastInstance weHazelcastInstance(
+        final WeAreStartedProperties weAreStartedProperties){
 
         return WeHazelBuilder.build(weAreStartedProperties);
     }
