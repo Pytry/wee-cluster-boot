@@ -6,4 +6,3 @@ spring:
 hoopes:
   cluster:
     maxNodes: 10
-
