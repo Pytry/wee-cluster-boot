@@ -1,0 +1,2 @@
+# This is the precurser to making this an autoconfiguration project
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=hoopes.keith.examples.hazelcast.clusterboot.CloudConfiguration
