@@ -6,6 +6,8 @@ import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.LeaderClusterEventService;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.StartupEventMapProxy;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeClusterMemberStartedListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -32,6 +34,8 @@ import org.springframework.context.annotation.Primary;
 @AutoConfigureAfter(ClusterBootAutoConfiguration.class)
 public class PrimaryBeansConfiguration{
 
+    private static final Logger log = LoggerFactory.getLogger(PrimaryBeansConfiguration.class);
+
     /**
      * The events map proxy.
      *
@@ -43,6 +47,8 @@ public class PrimaryBeansConfiguration{
     @Bean("leaderStartupEventMap")
     public StartupEventMapProxy leaderStartupEventMap(){
 
+        log.debug("Configuring StartupEventMapProxy");
+
         return new StartupEventMapProxy("leaderStartupEventMap");
     }
 
@@ -50,6 +56,8 @@ public class PrimaryBeansConfiguration{
     @Bean("leaderClusterEventService")
     public LeaderClusterEventService leaderClusterEventService(
         @Qualifier("leaderStartupEventMap") final IMap<String, String> leaderStartupEventMap){
+
+        log.debug("Configuring LeaderClusterEventService; leaderStartupEventMap: " + leaderStartupEventMap);
 
         return new LeaderClusterEventService(leaderStartupEventMap);
     }
@@ -60,6 +68,10 @@ public class PrimaryBeansConfiguration{
     public WeClusterMemberStartedListener weClusterMemberStartedListener(
         final ClusterBootProperties clusterBootProperties,
         final LeaderClusterEventService leaderClusterEventService){
+
+        log.debug("Configuring WeClusterMemberStartedListener; " +
+            "ClusterBootProperties: " + clusterBootProperties + ", " +
+            "LeaderClusterEventService: leaderClusterEventService");
 
         return new WeClusterMemberStartedListener(
             clusterBootProperties,

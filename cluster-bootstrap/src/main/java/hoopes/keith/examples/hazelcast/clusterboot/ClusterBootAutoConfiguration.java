@@ -1,14 +1,12 @@
 package hoopes.keith.examples.hazelcast.clusterboot;
 
-import com.hazelcast.config.Config;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.WeHazelConfigBuilder;
-import hoopes.keith.examples.hazelcast.clusterboot.configuration.PrimaryBeansConfiguration;
-import hoopes.keith.examples.hazelcast.clusterboot.configuration.MessagingBeansConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.configuration.HazelcastInstanceConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
+import hoopes.keith.examples.hazelcast.clusterboot.configuration.MessagingBeansConfiguration;
+import hoopes.keith.examples.hazelcast.clusterboot.configuration.PrimaryBeansConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -36,9 +34,18 @@ import org.springframework.context.annotation.Import;
 @EnableConfigurationProperties(ClusterBootProperties.class)
 public class ClusterBootAutoConfiguration{
 
+    /**
+     * I think it would be great to configure some AOP for logging, but I'm not familiar enough
+     * with Spring AOP to do that for this project, nor am I sure what I want is possible.
+     */
+    private static Logger log = LoggerFactory.getLogger(ClusterBootAutoConfiguration.class);
+
     @Bean("clusterBootProperties")
     @ConfigurationProperties("hoopes.cluster")
     public ClusterBootProperties clusterBootProperties(){
+
+        log.debug("Creating ClusterBootProperties.");
+
         return new ClusterBootProperties();
     }
 

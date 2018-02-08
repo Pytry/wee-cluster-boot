@@ -29,6 +29,19 @@
     <dependency>
       <groupId>com.hazelcast</groupId>
       <artifactId>hazelcast-spring</artifactId>
+      <version>3.7.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.hazelcast</groupId>
+      <artifactId>hazelcast</artifactId>
+      <version>3.7.8</version>
+      <!--Classifier needed because of tests import-->
+      <classifier>jar</classifier>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -41,6 +54,10 @@
       <optional>true</optional>
     </dependency>
     <!--Tests-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>

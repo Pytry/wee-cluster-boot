@@ -1,4 +1,4 @@
-package hoopes.keith.examples.hazelcast.clusterboot;
+package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
 import com.hazelcast.core.IMap;
 import com.hazelcast.map.impl.proxy.MapProxyImpl;

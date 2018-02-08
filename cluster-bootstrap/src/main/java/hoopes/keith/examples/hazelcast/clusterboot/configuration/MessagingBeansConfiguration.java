@@ -3,6 +3,8 @@ package hoopes.keith.examples.hazelcast.clusterboot.configuration;
 import com.hazelcast.core.IMap;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootAutoConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeLeaderCandidate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -35,12 +37,16 @@ import org.springframework.messaging.MessageHandler;
     PrimaryBeansConfiguration.class})
 public class MessagingBeansConfiguration{
 
+    private static final Logger log = LoggerFactory.getLogger(MessagingBeansConfiguration.class);
+
     @Bean
     @ConditionalOnMissingBean(
         name = "weLeaderEventPublisher",
         value = LeaderEventPublisher.class
     )
     public LeaderEventPublisher weLeaderEventPublisher(){
+
+        log.debug("Configuring LeaderEventPublisher");
 
         return new DefaultLeaderEventPublisher();
     }
@@ -53,6 +59,8 @@ public class MessagingBeansConfiguration{
     public WeLeaderCandidate weLeaderCandidate(
         final HazelcastEventDrivenMessageProducer clusterLeaderEventDrivenMessageProducer){
 
+        log.debug("Configuring WeLeaderCandidate; clusterLeaderEventDrivenMessageProducer:" + clusterLeaderEventDrivenMessageProducer);
+
         return new WeLeaderCandidate(clusterLeaderEventDrivenMessageProducer);
     }
 
@@ -62,6 +70,8 @@ public class MessagingBeansConfiguration{
         value = MessageChannel.class
     )
     public MessageChannel leaderMessageChannel(){
+
+        log.debug("Configuring DirectChannel as leaderMessageChannel");
 
         return new DirectChannel();
     }
@@ -74,6 +84,8 @@ public class MessagingBeansConfiguration{
         value = MessageHandler.class
     )
     public MessageHandler leaderMessageHandler(final LeaderInitiator initiator){
+
+        log.debug("Configuring MessageHandler lambda for leaderMessageHandler");
 
         return message -> {
             System.out.println(message.toString());
@@ -93,6 +105,13 @@ public class MessagingBeansConfiguration{
     public HazelcastEventDrivenMessageProducer clusterLeaderEventDrivenMessageProducer(
         @Qualifier("leaderStartupEventMap") final IMap<String, String> leaderStartupEventMap,
         @Qualifier("leaderMessageChannel") final MessageChannel leaderMessageChannel){
+
+        log.debug("Configuring HazelcastEventDrivenMessageProducer; " +
+            "leaderStartupEventMap: " + leaderStartupEventMap + ", " +
+            "leaderMessageChannel: " + leaderMessageChannel + ", " +
+            "cacheEventTypes: {ADDED,REMOVED,UPDATED,CLEAR_ALL}, " +
+            "cacheListeningPolicy: CacheListeningPolicyType.SINGLE, " +
+            "autoStartup: false");
 
         HazelcastEventDrivenMessageProducer producer = new HazelcastEventDrivenMessageProducer(leaderStartupEventMap);
         producer.setOutputChannel(leaderMessageChannel);

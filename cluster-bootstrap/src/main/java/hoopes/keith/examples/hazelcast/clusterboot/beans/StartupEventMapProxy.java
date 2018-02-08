@@ -15,10 +15,7 @@ import com.hazelcast.projection.Projection;
 import com.hazelcast.query.Predicate;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
-
-import static java.util.Arrays.*;
 
 /**
  * I need an instance of IMap to initialize my startup listener, but
@@ -49,24 +46,41 @@ import static java.util.Arrays.*;
 public class StartupEventMapProxy implements IMap<String, String>, HazelcastInstanceAware{
 
     /**
-     * The reference that will get populated with an actual IMap from the HazelcastInstance
-     * This is initially null until the context can be created and this is initialized
+     * The reference that will get populated with an IMap
+     * from the HazelcastInstance. This is initially null,
+     * but it will become initialized when the HazelcastInstance
+     * is being set.
      */
     private IMap<String, String> nullMap;
 
-    private ConcurrentLinkedQueue<List<String>> cache;
+    /**
+     * A synchronized LinkedHashMap is used to ensure order
+     * and thread safety.
+     *
+     * In a full implementation, I would prefer to have
+     * a single reference/property to an IMap which would
+     * get switched over to the Hazelcast reference once
+     * initialized.
+     */
+    private Map<String, String> cache;
 
+    /**
+     * The name to use when getting the IMap from
+     * the HazelcastInstance upon full initialization.
+     */
     private final String name;
 
     public StartupEventMapProxy(final String name){
 
+        // Don't check for empty here, since any non-null value,
+        // including all whitespace, is a valid key.
         if(name == null){
             throw new IllegalArgumentException("'name' is required when building a StartupEventMapProxy");
         }
 
         this.name = name;
-        cache = new ConcurrentLinkedQueue<>();
         this.nullMap = null;
+        cache = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     }
 
     /**
@@ -89,14 +103,25 @@ public class StartupEventMapProxy implements IMap<String, String>, HazelcastInst
             throw new IllegalArgumentException("'iMap' required. Cannot initialize the  StartupEventMapProxy with a null IMap parameter.");
         }
         nullMap = iMap;
-        cache.forEach(
-            l -> nullMap.put(
-                l.get(0),
-                l.get(1)
-            ));
+        cache
+            .forEach((key, value) ->
+                nullMap.put(
+                    key,
+                    value
+                ));
+        //TODO: Instead of using two references, implement IMap fully and use a single reference.
         cache.clear();
     }
 
+    /**
+     * The intent here is to provide a meaningful exception
+     * if the application attempts to use a method that is
+     * not supported pre-initialization.
+     *
+     * @return {@code IMap<String, String>}
+     *
+     * @throws IllegalStateException if the nullMap is null
+     */
     private IMap<String, String> map(){
 
         return Optional
@@ -139,16 +164,38 @@ public class StartupEventMapProxy implements IMap<String, String>, HazelcastInst
     @Override
     public String get(final Object key){
 
-        return map().get(key);
+        /*
+          I generally prefer to only ever have one return
+          per method, but there are exceptions. This stems
+          from my days coding C in college, and the need
+          to reduce the complexity of a method. When there
+          were too many exit points in a method, it became
+          hard ot convert back to assembly and impossible
+          for some code quality analyzers to parse. The T.A.
+          would run the quality check, and if it failed to
+          analyze the method then I failed the assignment.
+
+          Now it's just habit.
+         */
+        final String answer;
+        if(nullMap == null){
+            answer = cache.get(key);
+        }else{
+            answer = map().get(key);
+        }
+        return answer;
     }
 
     @Override
     public String put(final String key, final String value){
 
+        final String answer;
         if(nullMap == null){
-            cache.add(asList(key, value));
+            answer = cache.put(key, value);
+        }else{
+            answer = nullMap.put(key, value);
         }
-        return key;
+        return answer;
     }
 
     @Override

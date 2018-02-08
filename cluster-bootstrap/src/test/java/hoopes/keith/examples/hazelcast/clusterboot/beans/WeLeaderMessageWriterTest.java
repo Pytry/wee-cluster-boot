@@ -1,4 +1,4 @@
-package hoopes.keith.examples.hazelcast.clusterboot;
+package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeLeaderMessageWriter;
 import org.junit.jupiter.api.Test;
