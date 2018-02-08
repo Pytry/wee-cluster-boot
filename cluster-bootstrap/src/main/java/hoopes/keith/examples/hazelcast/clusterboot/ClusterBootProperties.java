@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * A properties class is overkill and I know it.
- * This is just a proof of concept for a more robust
+ * This is just a placeholder for a more robust
  * configuration.
  *
  * Copyright ${year}
@@ -12,15 +12,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author J. Keith Hoopes
  */
 @ConfigurationProperties("hoopes.cluster")
-public class WeAreStartedProperties{
+public class ClusterBootProperties{
 
     private int maxNodes = 10;
 
-    public WeAreStartedProperties(){
+    public ClusterBootProperties(){
 
     }
 
-    public WeAreStartedProperties(final int maxNodes){
+    public ClusterBootProperties(final int maxNodes){
 
         this.maxNodes = maxNodes;
     }
