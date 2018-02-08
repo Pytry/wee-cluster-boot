@@ -8,27 +8,18 @@ import com.hazelcast.config.ListenerConfig;
 import java.util.EventListener;
 
 /**
- * Note: I'm not sure if it exists, but it would be
- * nice to have a Spring Boot project with an
- * AutoConfiguration and @ConfigurationProperties
- * setup for this. If I had more time to become
- * familiar with the Hazelcast ecosystem, I probably
- * would have either used that, or fleshed this out
- * a lot more to handle a robust bootstrapping.
+ * Creates a default configuration specific to this code project.
  *
- * For now, the intention is to just move out all this
- * logic out of the configuration file to make it readable
- * and easily extensible.
- *
- * This would be better off as a new implementation of the
- * ConfigBuilder interface.
+ * TODO: Add more robust builders to handle all possible configurations.
+ * TODO: Add a method for configuring based on values in a properties or yml file
+ * TODO: as opposed to an XML file (ie; Spring Boots application.properties|yml)
  *
  * Copyright ${year}
  *
  * @author J. Keith Hoopes
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
-public final class WeHazelConfigBuilder implements ConfigBuilder{
+public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
 
     private final Config config;
 
@@ -37,7 +28,7 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * for the properties are passed in using the "of"
      * builder creator method.
      */
-    private WeHazelConfigBuilder(){
+    private WeHazelDefaultConfigBuilder(){
 
         //TODO: Maybe don't instantiate Config until build() is called?
         // Instead, I think a type of proxy would be best, so we can
@@ -60,9 +51,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      *
      * @return HazelcastInstance
      */
-    public static WeHazelConfigBuilder newBuild(){
+    public static WeHazelDefaultConfigBuilder newBuild(){
 
-        return new WeHazelConfigBuilder();
+        return new WeHazelDefaultConfigBuilder();
     }
 
     /**
@@ -76,7 +67,7 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      *
      * @return HazelcastInstance
      */
-    public WeHazelConfigBuilder withDefaultConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultConfig(){
 
         return withDefaultNetworkConfig();
     }
@@ -87,9 +78,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * @param key {@link String}
      * @param value int
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withMemberIntAttribute(final String key, final int value){
+    public WeHazelDefaultConfigBuilder withMemberIntAttribute(final String key, final int value){
 
         if(key == null){
             throw new IllegalArgumentException("'key' is required.");
@@ -111,9 +102,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * This will NOT remove previously set listeners.
      * TODO: Maybe it should?
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withListener(final EventListener eventListener){
+    public WeHazelDefaultConfigBuilder withListener(final EventListener eventListener){
 
         if(eventListener == null){
             throw new IllegalArgumentException("'eventListener' is required.");
@@ -131,9 +122,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * WARNING: This will overwrite previously set values
      * for the JoinConfig, AwsConfig, and MulticastConfig.
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withDefaultNetworkConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultNetworkConfig(){
 
         return withDefaultJoinConfig();
     }
@@ -144,9 +135,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * WARNING: This will overwrite any previous settings
      * made during the build.
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withDefaultJoinConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultJoinConfig(){
 
         return withDefaultAwsConfig()
             .withDefaultMulticastConfig();
@@ -155,9 +146,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
     /**
      * Sets default values for multicast configuration.
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withDefaultMulticastConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultMulticastConfig(){
 
         config
             .getNetworkConfig()
@@ -172,9 +163,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      * Sets default values for the network joins AWS configuration.
      * The default is to disable AWS network joins.
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withDefaultAwsConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultAwsConfig(){
 
         config
             .getNetworkConfig()
@@ -190,9 +181,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      *
      * @param groupConfig {@link GroupConfig}
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withGroupConfig(final GroupConfig groupConfig){
+    public WeHazelDefaultConfigBuilder withGroupConfig(final GroupConfig groupConfig){
 
         if(groupConfig == null){
             throw new IllegalArgumentException("'groupConfig' is required.");
@@ -203,11 +194,11 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
 
     /**
      * Sets default values for the group configuration based on
-     * the properties|yaml file.
+     * the properties|yml file.
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withDefaultGroupConfig(){
+    public WeHazelDefaultConfigBuilder withDefaultGroupConfig(){
 
         return withGroupName("WeAreStartedGroup")
             .withGroupPassword("WeAreStartedGroupPassword");
@@ -222,9 +213,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      *
      * @param groupName {@link String} can be null or empty
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withGroupName(final String groupName){
+    public WeHazelDefaultConfigBuilder withGroupName(final String groupName){
 
         config
             .getGroupConfig()
@@ -245,9 +236,9 @@ public final class WeHazelConfigBuilder implements ConfigBuilder{
      *
      * @param groupPassword {@link String} can be null or empty
      *
-     * @return this {@link WeHazelConfigBuilder}
+     * @return this {@link WeHazelDefaultConfigBuilder}
      */
-    public WeHazelConfigBuilder withGroupPassword(final String groupPassword){
+    public WeHazelDefaultConfigBuilder withGroupPassword(final String groupPassword){
 
         config
             .getGroupConfig()

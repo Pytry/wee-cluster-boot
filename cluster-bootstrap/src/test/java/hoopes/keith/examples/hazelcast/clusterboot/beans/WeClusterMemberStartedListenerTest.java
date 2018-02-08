@@ -6,6 +6,7 @@ import com.hazelcast.test.TestHazelcastInstanceFactory;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**

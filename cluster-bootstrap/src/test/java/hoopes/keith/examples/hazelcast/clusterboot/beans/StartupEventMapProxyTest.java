@@ -17,5 +17,9 @@ class StartupEventMapProxyTest{
         StartupEventMapProxy proxy = new StartupEventMapProxy("StartupEventMapProxyTest");
         proxy.put("test-key", "test-message");
         assertEquals("test-message", proxy.get("test-key"));
+        assertThrows(
+            IllegalStateException.class,
+            proxy::clear
+        );
     }
 }

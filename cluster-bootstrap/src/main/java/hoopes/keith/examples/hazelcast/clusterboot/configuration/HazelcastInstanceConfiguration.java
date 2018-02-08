@@ -4,7 +4,7 @@ import com.hazelcast.core.HazelcastInstance;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootAutoConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.StartupEventMapProxy;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeClusterMemberStartedListener;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.WeHazelConfigBuilder;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeHazelDefaultConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class HazelcastInstanceConfiguration{
             "leaderStartupEventMap: " + leaderStartupEventMap);
 
         HazelcastInstance hazelcastInstance = newHazelcastInstance(
-            WeHazelConfigBuilder
+            WeHazelDefaultConfigBuilder
                 .newBuild()
                 .withDefaultConfig()
                 .withListener(weClusterMemberStartedListener)
