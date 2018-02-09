@@ -1,8 +1,7 @@
 spring:
   application:
     name: simple-cluster
-  cache:
-    type: HAZELCAST
-hoopes:
-  cluster:
+hazelcast:
+  cluster-boot:
     maxNodes: 10
+

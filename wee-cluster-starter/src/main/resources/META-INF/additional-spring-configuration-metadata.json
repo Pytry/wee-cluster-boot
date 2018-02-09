@@ -1,0 +1,19 @@
+{
+  "properties":[
+    {
+      "name":"hazelcast.wee-cluster.maxNodes",
+      "type":"java.lang.Integer",
+      "description":"Default: 10; The number of nodes that should be created."
+    },
+    {
+      "name":"hazelcast.wee-cluster.multicastGroup",
+      "type":"java.lang.String",
+      "description":"Default: '224.0.0.1'; The group host that should be used to broadcast."
+    },
+    {
+      "name":"hazelcast.wee-cluster.allHereMessage",
+      "type":"java.lang.String",
+      "description":"Default: 'All Here'; A generic message that will be sent to the clusters leader once tall members have started."
+    }
+  ]
+}

@@ -1,15 +1,31 @@
 @echo off
 
-rmdir /Q /S target
+echo "WARNING! This script will open up to 10 more prompts."
+set /p answer="Continue? (y/n):"
 
-call mvnw -U clean install
+IF "%JAVA_HOME%"=="" GOTO needJava
+IF "%answer%"=="n" GOTO abort
+
+@REM rmdir /Q /S target
+@REM call mvnw -U clean install
 
 mkdir target
 mkdir target\cluster
 
-FOR /L %%i IN (8080,1,8089) DO (
+FOR /L %%i IN (8081,1,8089) DO (
 
     mkdir target\cluster\node%%i
     copy simple-cluster\target\simple-cluster.jar target\cluster\node%%i
     start cmd.exe /K java -Dserver.port=%%i -jar target\cluster\node%%i\simple-cluster.jar
 )
+GOTO end
+
+:needJava
+echo ""
+echo "The run-cluster script requires 'Java 8' to be installed"
+:abort
+echo ""
+echo "Aborting Cluster Startup"
+:end
+echo ""
+echo "DONE"
