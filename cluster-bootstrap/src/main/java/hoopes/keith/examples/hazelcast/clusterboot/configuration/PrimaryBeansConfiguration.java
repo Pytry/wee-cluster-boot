@@ -1,15 +1,13 @@
 package hoopes.keith.examples.hazelcast.clusterboot.configuration;
 
-import com.hazelcast.core.IMap;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootAutoConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.LeaderClusterEventService;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.StartupEventMapProxy;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeClusterMemberStartedListener;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderNotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -52,30 +50,21 @@ public class PrimaryBeansConfiguration{
         return new StartupEventMapProxy("leaderStartupEventMap");
     }
 
-    @Primary
-    @Bean("leaderClusterEventService")
-    public LeaderClusterEventService leaderClusterEventService(
-        @Qualifier("leaderStartupEventMap") final IMap<String, String> leaderStartupEventMap){
-
-        log.debug("Configuring LeaderClusterEventService; leaderStartupEventMap: " + leaderStartupEventMap);
-
-        return new LeaderClusterEventService(leaderStartupEventMap);
-    }
 
     @Primary
     @Autowired
     @Bean("weClusterMemberStartedListener")
     public WeClusterMemberStartedListener weClusterMemberStartedListener(
         final ClusterBootProperties clusterBootProperties,
-        final LeaderClusterEventService leaderClusterEventService){
+        final WeeLeaderNotificationService weeLeaderNotificationService){
 
         log.debug("Configuring WeClusterMemberStartedListener; " +
             "ClusterBootProperties: " + clusterBootProperties + ", " +
-            "LeaderClusterEventService: leaderClusterEventService");
+            "WeeLeaderNotificationService: weeLeaderNotificationService");
 
         return new WeClusterMemberStartedListener(
             clusterBootProperties,
-            leaderClusterEventService
+            weeLeaderNotificationService
         );
     }
 }

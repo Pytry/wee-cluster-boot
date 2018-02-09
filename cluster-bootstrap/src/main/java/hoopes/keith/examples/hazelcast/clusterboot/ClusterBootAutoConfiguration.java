@@ -55,7 +55,7 @@ public class ClusterBootAutoConfiguration{
     //     // and whether the default spring classes create an
     //     // injectable bean for it. It seems that, for whatever reason,
     //     // spring container can never find this been.
-    //     return WeHazelDefaultConfigBuilder
+    //     return WeeHazelConfigBuilder
     //         .newBuild()
     //         .withDefaultConfig()
     //         .build();

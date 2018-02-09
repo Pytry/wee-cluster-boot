@@ -1,6 +1,6 @@
 package hoopes.keith.examples.hazelcast.simplecluster;
 
-import hoopes.keith.examples.hazelcast.clusterboot.beans.LeaderClusterEventService;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderNotificationService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,17 +20,17 @@ import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-    classes = WeAreStartedApplication.class
+    classes = WeeClusterBootApplication.class
 )
 @TestInstance(PER_CLASS)
-class WeAreStartedApplicationTests{
+class WeeClusterBootApplicationTests{
 
     @Value("${local.server.port}")
     private int port;
 
     @Autowired
     @Qualifier("leaderClusterEventService")
-    private LeaderClusterEventService leaderClusterEventService;
+    private WeeLeaderNotificationService weeLeaderNotificationService;
 
     @BeforeAll
     void setUp(){
@@ -41,6 +41,6 @@ class WeAreStartedApplicationTests{
     @Test
     void contextLoads(){
 
-        assertNotNull(leaderClusterEventService);
+        assertNotNull(weeLeaderNotificationService);
     }
 }

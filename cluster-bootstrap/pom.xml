@@ -5,7 +5,7 @@
 
   <parent>
     <groupId>hoopes.keith.examples.hazelcast</groupId>
-    <artifactId>we-are-started</artifactId>
+    <artifactId>wee-cluster-boot</artifactId>
     <version>0.0.0-SNAPSHOT</version>
   </parent>
 

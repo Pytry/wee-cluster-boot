@@ -2,7 +2,8 @@ package hoopes.keith.examples.hazelcast.clusterboot.configuration;
 
 import com.hazelcast.core.IMap;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootAutoConfiguration;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.WeLeaderCandidate;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderCandidate;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderNotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,10 @@ import org.springframework.integration.leader.event.DefaultLeaderEventPublisher;
 import org.springframework.integration.leader.event.LeaderEventPublisher;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
+
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * Copyright ${year}
@@ -51,44 +56,66 @@ public class MessagingBeansConfiguration{
         return new DefaultLeaderEventPublisher();
     }
 
+    @Bean("weeLeaderNotificationService")
+    public WeeLeaderNotificationService weeLeaderNotificationService(
+        @Qualifier("weeLeaderMessageChannel") final MessageChannel weeLeaderMessageChannel){
+
+        log.debug("Configuring WeeLeaderNotificationService; weeLeaderMessageChannel: " + weeLeaderMessageChannel);
+
+        return new WeeLeaderNotificationService(weeLeaderMessageChannel);
+    }
+
     @Bean
     @Autowired
     @ConditionalOnMissingBean(
-        name = "weLeaderCandidate",
-        value = WeLeaderCandidate.class)
-    public WeLeaderCandidate weLeaderCandidate(
+        name = "weeLeaderCandidate",
+        value = WeeLeaderCandidate.class)
+    public WeeLeaderCandidate weeLeaderCandidate(
         final HazelcastEventDrivenMessageProducer clusterLeaderEventDrivenMessageProducer){
 
-        log.debug("Configuring WeLeaderCandidate; clusterLeaderEventDrivenMessageProducer:" + clusterLeaderEventDrivenMessageProducer);
+        log.debug("Configuring WeeLeaderCandidate; clusterLeaderEventDrivenMessageProducer:" + clusterLeaderEventDrivenMessageProducer);
 
-        return new WeLeaderCandidate(clusterLeaderEventDrivenMessageProducer);
+        return new WeeLeaderCandidate(clusterLeaderEventDrivenMessageProducer);
     }
 
-    @Bean("leaderMessageChannel")
+    @Bean
     @ConditionalOnMissingBean(
-        name = "leaderMessageChannel",
+        name = "weeLeaderMessageChannel",
         value = MessageChannel.class
     )
-    public MessageChannel leaderMessageChannel(){
+    public MessageChannel weeLeaderMessageChannel(){
 
-        log.debug("Configuring DirectChannel as leaderMessageChannel");
+        log.debug("Configuring DirectChannel as weeLeaderMessageChannel");
 
         return new DirectChannel();
     }
 
     @Bean
     @Autowired
-    @ServiceActivator(inputChannel = "leaderMessageChannel")
+    @ServiceActivator(inputChannel = "weeLeaderMessageChannel")
     @ConditionalOnMissingBean(
         name = "leaderMessageHandler",
         value = MessageHandler.class
     )
-    public MessageHandler leaderMessageHandler(final LeaderInitiator initiator){
+    public MessageHandler leaderMessageHandler(
+        final LeaderInitiator initiator){
 
         log.debug("Configuring MessageHandler lambda for leaderMessageHandler");
 
         return message -> {
-            System.out.println(message.toString());
+
+            String m = message.toString();
+            String bannerEdge = Stream
+                .of(m.toCharArray())
+                .map(c -> "*")
+                .collect(joining());
+
+            System.out.println();
+            System.out.println(bannerEdge);
+            System.out.println(m);
+            System.out.println(bannerEdge);
+            System.out.println();
+
             Context context = initiator.getContext();
             if(context.isLeader()){
                 context.yield();
@@ -104,11 +131,11 @@ public class MessagingBeansConfiguration{
     )
     public HazelcastEventDrivenMessageProducer clusterLeaderEventDrivenMessageProducer(
         @Qualifier("leaderStartupEventMap") final IMap<String, String> leaderStartupEventMap,
-        @Qualifier("leaderMessageChannel") final MessageChannel leaderMessageChannel){
+        @Qualifier("weeLeaderMessageChannel") final MessageChannel leaderMessageChannel){
 
         log.debug("Configuring HazelcastEventDrivenMessageProducer; " +
             "leaderStartupEventMap: " + leaderStartupEventMap + ", " +
-            "leaderMessageChannel: " + leaderMessageChannel + ", " +
+            "weeLeaderMessageChannel: " + leaderMessageChannel + ", " +
             "cacheEventTypes: {ADDED,REMOVED,UPDATED,CLEAR_ALL}, " +
             "cacheListeningPolicy: CacheListeningPolicyType.SINGLE, " +
             "autoStartup: false");

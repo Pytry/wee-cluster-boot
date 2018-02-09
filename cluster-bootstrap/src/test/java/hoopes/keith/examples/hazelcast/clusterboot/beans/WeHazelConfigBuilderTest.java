@@ -9,7 +9,7 @@ class WeHazelConfigBuilderTest{
     @Test
     void newBuildTest(){
         //Not much to test with such a simple implementation
-        WeHazelDefaultConfigBuilder builder = WeHazelDefaultConfigBuilder.newBuild();
+        WeeHazelConfigBuilder builder = WeeHazelConfigBuilder.newBuild();
         assertNotNull(builder);
         assertEquals(builder, builder.withDefaultConfig());
         assertEquals(builder, builder.withDefaultAwsConfig());

@@ -4,7 +4,7 @@ import com.hazelcast.core.HazelcastInstance;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootAutoConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.StartupEventMapProxy;
 import hoopes.keith.examples.hazelcast.clusterboot.beans.WeClusterMemberStartedListener;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.WeHazelDefaultConfigBuilder;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeHazelConfigBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class HazelcastInstanceConfiguration{
             "leaderStartupEventMap: " + leaderStartupEventMap);
 
         HazelcastInstance hazelcastInstance = newHazelcastInstance(
-            WeHazelDefaultConfigBuilder
+            WeeHazelConfigBuilder
                 .newBuild()
                 .withDefaultConfig()
                 .withListener(weClusterMemberStartedListener)
@@ -77,12 +77,12 @@ public class HazelcastInstanceConfiguration{
         name = "weLeaderInitiator",
         value = LeaderInitiator.class)
     public LeaderInitiator weLeaderInitiator(
-        @Qualifier("weLeaderCandidate") final Candidate weLeaderCandidate,
+        @Qualifier("weeLeaderCandidate") final Candidate weLeaderCandidate,
         @Qualifier("weLeaderEventPublisher") final LeaderEventPublisher weLeaderEventPublisher,
         @Qualifier("hazelcastInstance") final HazelcastInstance hazelcastInstance){
 
         log.info("Configuring weLeaderInitiator; " +
-            "weLeaderCandidate: {" +
+            "weeLeaderCandidate: {" +
             "id:" + weLeaderCandidate.getId() + ", " +
             "role:" + weLeaderCandidate.getRole() + "" +
             "}, " +

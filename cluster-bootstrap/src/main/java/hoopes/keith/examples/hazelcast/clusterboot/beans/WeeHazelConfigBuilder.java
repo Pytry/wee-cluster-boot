@@ -2,10 +2,11 @@ package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
 import com.hazelcast.config.Config;
 import com.hazelcast.config.ConfigBuilder;
-import com.hazelcast.config.GroupConfig;
 import com.hazelcast.config.ListenerConfig;
+import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
 
 import java.util.EventListener;
+import java.util.Optional;
 
 /**
  * Creates a default configuration specific to this code project.
@@ -18,18 +19,22 @@ import java.util.EventListener;
  *
  * @author J. Keith Hoopes
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
-public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
+public final class WeeHazelConfigBuilder implements ConfigBuilder{
 
     private final Config config;
+
+    private final ClusterBootProperties props;
 
     /**
      * This is made private to ensure proper values
      * for the properties are passed in using the "of"
      * builder creator method.
      */
-    private WeHazelDefaultConfigBuilder(){
+    private WeeHazelConfigBuilder(ClusterBootProperties properties){
 
+        if(properties == null){
+            throw new IllegalArgumentException("'ClusterBootProperties' is required.");
+        }
         //TODO: Maybe don't instantiate Config until build() is called?
         // Instead, I think a type of proxy would be best, so we can
         // track which changes and defaults are made in order to
@@ -38,6 +43,30 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
         // an IllegalStateException, or a custom builder exception
         // extending it could be thrown.
         config = new Config();
+        props = properties;
+    }
+
+    /**
+     * Creates a HazelcastInstance based on default property values.
+     *
+     * Configuration is specific to the requirements of the
+     * "we Are Started" coding challenge.
+     *
+     * @return HazelcastInstance
+     */
+    public static WeeHazelConfigBuilder newBuild(){
+
+        return new WeeHazelConfigBuilder(new ClusterBootProperties());
+    }
+
+    /**
+     * Creates a HazelcastInstance based on the passed in {@link ClusterBootProperties}
+     *
+     * @return HazelcastInstance
+     */
+    public static WeeHazelConfigBuilder newBuild(final ClusterBootProperties clusterBootProperties){
+
+        return new WeeHazelConfigBuilder(clusterBootProperties);
     }
 
     /**
@@ -51,47 +80,72 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
      *
      * @return HazelcastInstance
      */
-    public static WeHazelDefaultConfigBuilder newBuild(){
-
-        return new WeHazelDefaultConfigBuilder();
-    }
-
-    /**
-     * Creates a HazelcastInstance based on the properties.
-     * Configuration is specific to the requirements of the
-     * "we Are Started" coding challenge.
-     *
-     * This method might be better to return an instance of
-     * a custom ConfigBuilder so that the properties don't
-     * need to be passed to every internal method.
-     *
-     * @return HazelcastInstance
-     */
-    public WeHazelDefaultConfigBuilder withDefaultConfig(){
+    public WeeHazelConfigBuilder withDefaultConfig(){
 
         return withDefaultNetworkConfig();
     }
 
     /**
-     * Sets a member attribute using the key:value pair given.
+     * Sets default values for the network configuration.
      *
-     * @param key {@link String}
-     * @param value int
+     * WARNING: This will overwrite previously set values
+     * for the JoinConfig, AwsConfig, and MulticastConfig.
      *
-     * @return this {@link WeHazelDefaultConfigBuilder}
+     * @return this {@link WeeHazelConfigBuilder}
      */
-    public WeHazelDefaultConfigBuilder withMemberIntAttribute(final String key, final int value){
+    public WeeHazelConfigBuilder withDefaultNetworkConfig(){
 
-        if(key == null){
-            throw new IllegalArgumentException("'key' is required.");
-        }
-        // Note: I was originally thinking I would set the maxNodes
-        // value here, but now I am setting it inside the listener.
-        // I kept the method as a proof of concept for setting attributes
-        // and eventually for properties as well.
+        return withDefaultJoinConfig();
+    }
+
+    /**
+     * Sets default values for the network join.
+     *
+     * WARNING: This will overwrite any previous settings
+     * made during the build.
+     *
+     * @return this {@link WeeHazelConfigBuilder}
+     */
+    public WeeHazelConfigBuilder withDefaultJoinConfig(){
+
+        return withDefaultAwsConfig()
+            .withDefaultMulticastConfig();
+    }
+
+    /**
+     * Sets default values for multicast configuration.
+     *
+     * @return this {@link WeeHazelConfigBuilder}
+     */
+    public WeeHazelConfigBuilder withDefaultMulticastConfig(){
+
         config
-            .getMemberAttributeConfig()
-            .setIntAttribute(key, value);
+            .getNetworkConfig()
+            .getJoin()
+            .getMulticastConfig()
+            .setMulticastGroup(
+                Optional
+                    .ofNullable(
+                        props.getMulticastGroup())
+                    .orElse("224.0.0.1")
+            );
+
+        return this;
+    }
+
+    /**
+     * Sets default values for the network joins AWS configuration.
+     * The default is to disable AWS network joins.
+     *
+     * @return this {@link WeeHazelConfigBuilder}
+     */
+    public WeeHazelConfigBuilder withDefaultAwsConfig(){
+
+        config
+            .getNetworkConfig()
+            .getJoin()
+            .getAwsConfig()
+            .setEnabled(false);
 
         return this;
     }
@@ -102,9 +156,9 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
      * This will NOT remove previously set listeners.
      * TODO: Maybe it should?
      *
-     * @return this {@link WeHazelDefaultConfigBuilder}
+     * @return this {@link WeeHazelConfigBuilder}
      */
-    public WeHazelDefaultConfigBuilder withListener(final EventListener eventListener){
+    public WeeHazelConfigBuilder withListener(final EventListener eventListener){
 
         if(eventListener == null){
             throw new IllegalArgumentException("'eventListener' is required.");
@@ -117,91 +171,15 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
     }
 
     /**
-     * Sets default values for the network configuration.
-     *
-     * WARNING: This will overwrite previously set values
-     * for the JoinConfig, AwsConfig, and MulticastConfig.
-     *
-     * @return this {@link WeHazelDefaultConfigBuilder}
-     */
-    public WeHazelDefaultConfigBuilder withDefaultNetworkConfig(){
-
-        return withDefaultJoinConfig();
-    }
-
-    /**
-     * Sets default values for the network join.
-     *
-     * WARNING: This will overwrite any previous settings
-     * made during the build.
-     *
-     * @return this {@link WeHazelDefaultConfigBuilder}
-     */
-    public WeHazelDefaultConfigBuilder withDefaultJoinConfig(){
-
-        return withDefaultAwsConfig()
-            .withDefaultMulticastConfig();
-    }
-
-    /**
-     * Sets default values for multicast configuration.
-     *
-     * @return this {@link WeHazelDefaultConfigBuilder}
-     */
-    public WeHazelDefaultConfigBuilder withDefaultMulticastConfig(){
-
-        config
-            .getNetworkConfig()
-            .getJoin()
-            .getMulticastConfig()
-            .setMulticastGroup("WeClusterMulticastGroup");//TODO: Base this off od the spring.application.name?
-
-        return this;
-    }
-
-    /**
-     * Sets default values for the network joins AWS configuration.
-     * The default is to disable AWS network joins.
-     *
-     * @return this {@link WeHazelDefaultConfigBuilder}
-     */
-    public WeHazelDefaultConfigBuilder withDefaultAwsConfig(){
-
-        config
-            .getNetworkConfig()
-            .getJoin()
-            .getAwsConfig()
-            .setEnabled(false);
-
-        return this;
-    }
-
-    /**
-     * Maybe add some child builders for the different sub-configurations as well.
-     *
-     * @param groupConfig {@link GroupConfig}
-     *
-     * @return this {@link WeHazelDefaultConfigBuilder}
-     */
-    public WeHazelDefaultConfigBuilder withGroupConfig(final GroupConfig groupConfig){
-
-        if(groupConfig == null){
-            throw new IllegalArgumentException("'groupConfig' is required.");
-        }
-        config.setGroupConfig(groupConfig);
-        return this;
-    }
-
-    /**
      * Sets default values for the group configuration based on
      * the properties|yml file.
      *
-     * @return this {@link WeHazelDefaultConfigBuilder}
+     * @return this {@link WeeHazelConfigBuilder}
      */
-    public WeHazelDefaultConfigBuilder withDefaultGroupConfig(){
+    public WeeHazelConfigBuilder withDefaultGroupConfig(){
 
-        return withGroupName("WeAreStartedGroup")
-            .withGroupPassword("WeAreStartedGroupPassword");
+        return withGroupName("WeeClusterBootGroup")
+            .withGroupPassword("WeeClusterBootGroupPassword");
     }
 
     /**
@@ -213,9 +191,9 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
      *
      * @param groupName {@link String} can be null or empty
      *
-     * @return this {@link WeHazelDefaultConfigBuilder}
+     * @return this {@link WeeHazelConfigBuilder}
      */
-    public WeHazelDefaultConfigBuilder withGroupName(final String groupName){
+    public WeeHazelConfigBuilder withGroupName(final String groupName){
 
         config
             .getGroupConfig()
@@ -236,9 +214,9 @@ public final class WeHazelDefaultConfigBuilder implements ConfigBuilder{
      *
      * @param groupPassword {@link String} can be null or empty
      *
-     * @return this {@link WeHazelDefaultConfigBuilder}
+     * @return this {@link WeeHazelConfigBuilder}
      */
-    public WeHazelDefaultConfigBuilder withGroupPassword(final String groupPassword){
+    public WeeHazelConfigBuilder withGroupPassword(final String groupPassword){
 
         config
             .getGroupConfig()

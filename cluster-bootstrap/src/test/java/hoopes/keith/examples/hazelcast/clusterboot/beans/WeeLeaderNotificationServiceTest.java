@@ -2,7 +2,6 @@ package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
 import com.hazelcast.core.IMap;
 import com.hazelcast.map.impl.proxy.MapProxyImpl;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.LeaderClusterEventService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -17,13 +16,13 @@ import static org.mockito.Mockito.*;
  * @author J. Keith Hoopes
  */
 @TestInstance(PER_CLASS)
-class LeaderClusterEventServiceTest{
+class WeeLeaderNotificationServiceTest{
 
     @Test
     void notifyLeaderOfStartup(){
 
         IMap<String, String> mockMap = (MapProxyImpl<String, String>) mock(MapProxyImpl.class);
-        LeaderClusterEventService service = new LeaderClusterEventService(mockMap);
+        WeeLeaderNotificationService service = new WeeLeaderNotificationService(mockMap);
         service.notifyLeaderOfStartup(UUID.randomUUID().toString());
 
         verify(mockMap, atLeastOnce())

@@ -9,11 +9,11 @@ import org.springframework.integration.leader.DefaultCandidate;
  *
  * @author J. Keith Hoopes
  */
-public class WeLeaderCandidate extends DefaultCandidate{
+public class WeeLeaderCandidate extends DefaultCandidate{
 
     private final HazelcastEventDrivenMessageProducer hazelcastEventDrivenMessageProducer;
 
-    public WeLeaderCandidate(final HazelcastEventDrivenMessageProducer hazelcastEventDrivenMessageProducer){
+    public WeeLeaderCandidate(final HazelcastEventDrivenMessageProducer hazelcastEventDrivenMessageProducer){
 
         this.hazelcastEventDrivenMessageProducer = hazelcastEventDrivenMessageProducer;
     }

@@ -16,13 +16,22 @@ public class ClusterBootProperties{
 
     private int maxNodes = 10;
 
+    private String multicastGroup = "224.0.0.1";
+
+    private String allHereMessage;
+
     public ClusterBootProperties(){
 
     }
 
-    public ClusterBootProperties(final int maxNodes){
+    public ClusterBootProperties(
+        final int maxNodes,
+        final String multicastGroup,
+        final String allHereMessage){
 
         this.maxNodes = maxNodes;
+        this.multicastGroup = multicastGroup;
+        this.allHereMessage = allHereMessage;
     }
 
     public int getMaxNodes(){
@@ -33,5 +42,25 @@ public class ClusterBootProperties{
     public void setMaxNodes(final int maxNodes){
 
         this.maxNodes = maxNodes;
+    }
+
+    public String getMulticastGroup(){
+
+        return multicastGroup;
+    }
+
+    public void setMulticastGroup(final String multicastGroup){
+
+        this.multicastGroup = multicastGroup;
+    }
+
+    public String getAllHereMessage(){
+
+        return allHereMessage;
+    }
+
+    public void setAllHereMessage(final String allHereMessage){
+
+        this.allHereMessage = allHereMessage;
     }
 }

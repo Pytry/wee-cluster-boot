@@ -6,6 +6,8 @@ import com.hazelcast.core.LifecycleEvent;
 import com.hazelcast.core.LifecycleListener;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
 
+import java.util.Optional;
+
 /**
  * Copyright ${year}
  *
@@ -15,16 +17,16 @@ public class WeClusterMemberStartedListener implements HazelcastInstanceAware, L
 
     private HazelcastInstance weHazelcastInstance;
 
-    private final LeaderClusterEventService events;
+    private final WeeLeaderNotificationService events;
 
     private final ClusterBootProperties props;
 
     public WeClusterMemberStartedListener(
         final ClusterBootProperties clusterBootProperties,
-        final LeaderClusterEventService leaderClusterEventService){
+        final WeeLeaderNotificationService weeLeaderNotificationService){
 
         this.props = clusterBootProperties;
-        this.events = leaderClusterEventService;
+        this.events = weeLeaderNotificationService;
     }
 
     @Override
@@ -33,11 +35,11 @@ public class WeClusterMemberStartedListener implements HazelcastInstanceAware, L
         if(memberStarted(event) && maxNodesReached()){
 
             events.notifyLeaderOfStartup(
-                weHazelcastInstance
-                    .getCluster()
-                    .getLocalMember()
-                    .getUuid()
-            );
+                Optional
+                    .ofNullable(
+                        props.getAllHereMessage())
+                    .orElse(
+                        "The Wee Cluster is Booted"));
         }
     }
 

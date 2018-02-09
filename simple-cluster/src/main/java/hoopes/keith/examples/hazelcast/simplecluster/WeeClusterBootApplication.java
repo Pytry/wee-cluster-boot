@@ -20,10 +20,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author J. Keith Hoopes
  */
 @SpringBootApplication
-public class WeAreStartedApplication{
+public class WeeClusterBootApplication{
 
     public static void main(final String[] args){
 
-        SpringApplication.run(WeAreStartedApplication.class, args);
+        SpringApplication.run(WeeClusterBootApplication.class, args);
     }
 }

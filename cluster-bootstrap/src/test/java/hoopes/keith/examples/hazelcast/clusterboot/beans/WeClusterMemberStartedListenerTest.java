@@ -6,7 +6,6 @@ import com.hazelcast.test.TestHazelcastInstanceFactory;
 import hoopes.keith.examples.hazelcast.clusterboot.ClusterBootProperties;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 /**
@@ -25,24 +24,23 @@ class WeClusterMemberStartedListenerTest{
     void stateChanged(){
 
         HazelcastInstance weHazelcastInstance = new TestHazelcastInstanceFactory().newHazelcastInstance();
-
-        LeaderClusterEventService leaderClusterEventService = mock(LeaderClusterEventService.class);
-        ClusterBootProperties clusterBootProperties = new ClusterBootProperties(1);
+        WeeLeaderNotificationService weeLeaderNotificationService = mock(WeeLeaderNotificationService.class);
+        ClusterBootProperties clusterBootProperties = new ClusterBootProperties(1, "224.0.0.1");
         WeClusterMemberStartedListener listener = new WeClusterMemberStartedListener(
             clusterBootProperties,
-            leaderClusterEventService
+            weeLeaderNotificationService
         );
 
         listener.setHazelcastInstance(weHazelcastInstance);
         listener.stateChanged(lifecycleEventStarted());
         verify(
-            leaderClusterEventService,
+            weeLeaderNotificationService,
             atMost(1)
         ).notifyLeaderOfStartup(
             any(String.class)
         );
         verify(
-            leaderClusterEventService,
+            weeLeaderNotificationService,
             atLeastOnce()
         ).notifyLeaderOfStartup(
             any(String.class)
