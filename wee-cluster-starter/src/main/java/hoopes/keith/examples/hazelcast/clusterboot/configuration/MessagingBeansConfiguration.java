@@ -47,10 +47,10 @@ public class MessagingBeansConfiguration{
 
     @Bean
     @ConditionalOnMissingBean(
-        name = "weLeaderEventPublisher",
+        name = "weeLeaderEventPublisher",
         value = LeaderEventPublisher.class
     )
-    public LeaderEventPublisher weLeaderEventPublisher(){
+    public LeaderEventPublisher weeLeaderEventPublisher(){
 
         log.debug("Configuring LeaderEventPublisher");
 

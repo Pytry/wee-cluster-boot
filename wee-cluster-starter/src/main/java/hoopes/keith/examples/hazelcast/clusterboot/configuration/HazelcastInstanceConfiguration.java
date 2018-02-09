@@ -82,23 +82,24 @@ public class HazelcastInstanceConfiguration{
     @Bean
     @Autowired
     @ConditionalOnMissingBean(
-        name = "weLeaderInitiator",
+        name = "weeLeaderInitiator",
         value = LeaderInitiator.class)
-    public LeaderInitiator weLeaderInitiator(
-        @Qualifier("weeLeaderCandidate") final Candidate weLeaderCandidate,
-        @Qualifier("weLeaderEventPublisher") final LeaderEventPublisher weLeaderEventPublisher,
-        @Qualifier("hazelcastInstance") final HazelcastInstance hazelcastInstance){
+    public LeaderInitiator weeLeaderInitiator(
+        //The HazelcastInstance is the only injection that needs a qualifier
+        @Qualifier("hazelcastInstance") final HazelcastInstance hazelcastInstance,
+        final Candidate weeLeaderCandidate,
+        final LeaderEventPublisher weeLeaderEventPublisher){
 
-        log.info("Configuring weLeaderInitiator; " +
+        log.info("Configuring weeLeaderInitiator; " +
             "weeLeaderCandidate: {" +
-            "id:" + weLeaderCandidate.getId() + ", " +
-            "role:" + weLeaderCandidate.getRole() + "" +
+            "id:" + weeLeaderCandidate.getId() + ", " +
+            "role:" + weeLeaderCandidate.getRole() + "" +
             "}, " +
-            "weLeaderEventPublisher: " + weLeaderEventPublisher + ", " +
+            "weeLeaderEventPublisher: " + weeLeaderEventPublisher + ", " +
             "hazelcastInstance: " + hazelcastInstance.getName());
 
-        LeaderInitiator leaderInitiator = new LeaderInitiator(hazelcastInstance, weLeaderCandidate);
-        leaderInitiator.setLeaderEventPublisher(weLeaderEventPublisher);
+        LeaderInitiator leaderInitiator = new LeaderInitiator(hazelcastInstance, weeLeaderCandidate);
+        leaderInitiator.setLeaderEventPublisher(weeLeaderEventPublisher);
 
         return leaderInitiator;
     }

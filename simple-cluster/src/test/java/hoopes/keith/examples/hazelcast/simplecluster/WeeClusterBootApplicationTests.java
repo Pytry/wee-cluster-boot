@@ -56,7 +56,7 @@ class WeeClusterBootApplicationTests{
     @Autowired
     private WeeLeaderCandidate weeLeaderCandidate;
 
-    @Qualifier("weLeaderEventPublisher")
+    @Qualifier("weeLeaderEventPublisher")
     @Autowired
     private LeaderEventPublisher weLeaderEventPublisher;
 
@@ -86,7 +86,7 @@ class WeeClusterBootApplicationTests{
         // assertNotNull(weeLeaderMessageHandler);
         // assertNotNull(weeLeaderCandidate);
         // assertNotNull(weeLeaderNotificationService);
-        // assertNotNull(weLeaderEventPublisher);
+        // assertNotNull(weeLeaderEventPublisher);
         // assertNotNull(weeLeaderMessageChannel);
         // assertNotNull(weeClusterEventsMessageProducer);
     }
