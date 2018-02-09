@@ -1,9 +1,9 @@
 package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
-import com.hazelcast.core.IMap;
-import com.hazelcast.map.impl.proxy.MapProxyImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.support.GenericMessage;
 
 import java.util.UUID;
 
@@ -21,13 +21,13 @@ class WeeLeaderNotificationServiceTest{
     @Test
     void notifyLeaderOfStartup(){
 
-        IMap<String, String> mockMap = (MapProxyImpl<String, String>) mock(MapProxyImpl.class);
-        WeeLeaderNotificationService service = new WeeLeaderNotificationService(mockMap);
+        MessageChannel messageChannel = mock(MessageChannel.class);
+        WeeLeaderNotificationService service = new WeeLeaderNotificationService(messageChannel);
         service.notifyLeaderOfStartup(UUID.randomUUID().toString());
 
-        verify(mockMap, atLeastOnce())
-            .put(any(), any());
-        verify(mockMap, atMost(1))
-            .put(any(), any());
+        verify(messageChannel, atLeastOnce())
+            .send(
+                any(GenericMessage.class)
+            );
     }
 }

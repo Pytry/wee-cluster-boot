@@ -25,7 +25,10 @@ class WeClusterMemberStartedListenerTest{
 
         HazelcastInstance weHazelcastInstance = new TestHazelcastInstanceFactory().newHazelcastInstance();
         WeeLeaderNotificationService weeLeaderNotificationService = mock(WeeLeaderNotificationService.class);
-        ClusterBootProperties clusterBootProperties = new ClusterBootProperties(1, "224.0.0.1");
+        ClusterBootProperties clusterBootProperties = new ClusterBootProperties(1, "224.0.0.1", "" +
+            "A pirate walks into a bar with a huge mast wheel hanging from his belt buckle, and orders some rum.\n" +
+            "The bartender asks him, \"It must be pretty difficult to get around with that wheel on your belt.\n" +
+            "\"Yar,\" says the pirate. \"It be driving me nuts!");
         WeClusterMemberStartedListener listener = new WeClusterMemberStartedListener(
             clusterBootProperties,
             weeLeaderNotificationService
