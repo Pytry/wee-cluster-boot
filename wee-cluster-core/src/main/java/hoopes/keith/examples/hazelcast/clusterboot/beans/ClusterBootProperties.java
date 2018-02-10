@@ -1,9 +1,10 @@
 package hoopes.keith.examples.hazelcast.clusterboot.beans;
 
 /**
- * A properties class is overkill and I know it.
+ * A properties class is overkill and I know it. *
  * This is just a placeholder for a more robust
- * configuration.
+ * autoconfigure. My end goal would be to get yml
+ * and properties supported.
  *
  * Copyright ${year}
  *

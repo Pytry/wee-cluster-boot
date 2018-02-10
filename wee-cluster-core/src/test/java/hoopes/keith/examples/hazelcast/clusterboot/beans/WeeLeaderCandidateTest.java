@@ -4,24 +4,22 @@ import com.hazelcast.test.TestHazelcastInstanceFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.integration.hazelcast.inbound.HazelcastEventDrivenMessageProducer;
 
-import static org.mockito.Mockito.*;
-
 class WeeLeaderCandidateTest{
 
+    /**
+     * Note: Since stop and start are final, they CANNOT be stubbed nor verified.
+     * This test is just making sure that no exceptions would be thrown
+     */
     @Test
-    void onGranted(){
+    void noExceptions(){
 
-        ;
-        StartupEventMapProxy map = new StartupEventMapProxy("test-map");
-        map.setHazelcastInstance(
-            new TestHazelcastInstanceFactory()
-                .newHazelcastInstance()
-        );
-        HazelcastEventDrivenMessageProducer producer = spy(new HazelcastEventDrivenMessageProducer(map));
-        WeeLeaderCandidate candidate = new WeeLeaderCandidate(producer);
+        WeeLeaderCandidate candidate = new WeeLeaderCandidate(
+            new HazelcastEventDrivenMessageProducer(
+                new TestHazelcastInstanceFactory()
+                    .newHazelcastInstance()
+                    .getMap("whatever")
+            ));
         candidate.onGranted(() -> true);
         candidate.onRevoked(() -> false);
-        // Note: Since stop and start are final, they CANNOT be stubbed nor verified.
-        // This test is just making sure that no exceptions would be thrown
     }
 }

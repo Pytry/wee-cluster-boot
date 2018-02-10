@@ -1,10 +1,9 @@
 package hoopes.keith.examples.hazelcast.simplecluster;
 
-import hoopes.keith.examples.hazelcast.clusterboot.beans.*;
-import io.restassured.RestAssured;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.ClusterBootProperties;
+import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderCandidate;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,7 +16,7 @@ import org.springframework.messaging.MessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 
 @Component
@@ -26,31 +25,18 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
     webEnvironment = RANDOM_PORT,
     classes = WeeClusterBootApplication.class
 )
-@TestInstance(PER_CLASS)
-class WeeClusterBootApplicationTests{
+class WeeClusterBootApplicationTest{
 
     @Value("${local.server.port}")
     private int port;
-
-    @Qualifier("weeLeaderMessageHandler")
-    @Autowired
-    public MessageHandler weeLeaderMessageHandler;
-
-    @Qualifier("weeLeaderNotificationService")
-    @Autowired
-    private WeeLeaderNotificationService weeLeaderNotificationService;
 
     @Qualifier("clusterBootProperties")
     @Autowired
     private ClusterBootProperties clusterBootProperties;
 
-    @Qualifier("leaderStartupEventMap")
+    @Qualifier("weeLeaderMessageHandler")
     @Autowired
-    private StartupEventMapProxy leaderStartupEventMap;
-
-    @Qualifier("weClusterMemberStartedListener")
-    @Autowired
-    private WeClusterMemberStartedListener weClusterMemberStartedListener;
+    private MessageHandler weeLeaderMessageHandler;
 
     @Qualifier("weeLeaderCandidate")
     @Autowired
@@ -58,9 +44,9 @@ class WeeClusterBootApplicationTests{
 
     @Qualifier("weeLeaderEventPublisher")
     @Autowired
-    private LeaderEventPublisher weLeaderEventPublisher;
+    private LeaderEventPublisher weeLeaderEventPublisher;
 
-    @Qualifier("weeLeaderMessageChannel")
+    @Qualifier("weeInboundLeaderMessageChannel")
     @Autowired
     private MessageChannel weeLeaderMessageChannel;
 
@@ -71,23 +57,16 @@ class WeeClusterBootApplicationTests{
     @BeforeAll
     void setUp(){
         //TODO: Add in some restful calls to check on the health of the service.
-        RestAssured.port = port;
     }
 
     @Test
     void contextLoads(){
 
-        // assertNotNull(weeLeaderNotificationService);
-        // assertNotNull(clusterBootProperties);
-        // assertNotNull(weeLeaderNotificationService);
-        // assertNotNull(clusterBootProperties);
-        // assertNotNull(leaderStartupEventMap);
-        // assertNotNull(weClusterMemberStartedListener);
-        // assertNotNull(weeLeaderMessageHandler);
-        // assertNotNull(weeLeaderCandidate);
-        // assertNotNull(weeLeaderNotificationService);
-        // assertNotNull(weeLeaderEventPublisher);
-        // assertNotNull(weeLeaderMessageChannel);
-        // assertNotNull(weeClusterEventsMessageProducer);
+        assertNotNull(clusterBootProperties);
+        assertNotNull(weeLeaderMessageHandler);
+        assertNotNull(weeLeaderCandidate);
+        assertNotNull(weeLeaderEventPublisher);
+        assertNotNull(weeLeaderMessageChannel);
+        assertNotNull(weeClusterEventsMessageProducer);
     }
 }
