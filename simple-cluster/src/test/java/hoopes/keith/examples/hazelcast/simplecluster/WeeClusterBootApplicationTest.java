@@ -1,7 +1,7 @@
 package hoopes.keith.examples.hazelcast.simplecluster;
 
-import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.ClusterBootProperties;
-import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.WeeLeaderCandidate;
+import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.ClusterBootProperties;
+import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.WeeLeaderCandidate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,9 @@ class WeeClusterBootApplicationTest{
     @Autowired
     private ClusterBootProperties clusterBootProperties;
 
-    @Qualifier("weeLeaderMessageHandler")
+    @Qualifier("weeInboundLeaderMessageHandler")
     @Autowired
-    private MessageHandler weeLeaderMessageHandler;
+    private MessageHandler weeInboundLeaderMessageHandler;
 
     @Qualifier("weeLeaderCandidate")
     @Autowired

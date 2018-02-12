@@ -1,4 +1,4 @@
-package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure;
+package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services;
 
 /**
  * A properties class is overkill and I know it. *
@@ -14,8 +14,6 @@ public class ClusterBootProperties{
 
     private int maxNodes = 1;
 
-    private String multicastGroup = "224.0.0.1";
-
     private String allHereMessage = "All Here";
 
     public ClusterBootProperties(){
@@ -24,11 +22,9 @@ public class ClusterBootProperties{
 
     public ClusterBootProperties(
         final int maxNodes,
-        final String multicastGroup,
         final String allHereMessage){
 
         this.maxNodes = maxNodes;
-        this.multicastGroup = multicastGroup;
         this.allHereMessage = allHereMessage;
     }
 
@@ -40,16 +36,6 @@ public class ClusterBootProperties{
     public void setMaxNodes(final int maxNodes){
 
         this.maxNodes = maxNodes;
-    }
-
-    public String getMulticastGroup(){
-
-        return multicastGroup;
-    }
-
-    public void setMulticastGroup(final String multicastGroup){
-
-        this.multicastGroup = multicastGroup;
     }
 
     public String getAllHereMessage(){
