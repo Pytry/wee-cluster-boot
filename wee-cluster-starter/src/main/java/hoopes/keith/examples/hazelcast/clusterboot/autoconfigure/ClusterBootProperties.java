@@ -1,4 +1,4 @@
-package hoopes.keith.examples.hazelcast.clusterboot.beans;
+package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure;
 
 /**
  * A properties class is overkill and I know it. *
@@ -12,7 +12,7 @@ package hoopes.keith.examples.hazelcast.clusterboot.beans;
  */
 public class ClusterBootProperties{
 
-    private int maxNodes = 10;
+    private int maxNodes = 1;
 
     private String multicastGroup = "224.0.0.1";
 

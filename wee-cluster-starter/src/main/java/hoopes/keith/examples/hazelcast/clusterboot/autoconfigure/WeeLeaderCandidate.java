@@ -1,4 +1,4 @@
-package hoopes.keith.examples.hazelcast.clusterboot.beans;
+package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure;
 
 import org.springframework.integration.hazelcast.inbound.HazelcastEventDrivenMessageProducer;
 import org.springframework.integration.leader.Context;

@@ -1,7 +1,6 @@
 package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure;
 
 import com.hazelcast.core.HazelcastInstance;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.ClusterBootProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
@@ -12,6 +11,8 @@ import org.springframework.boot.autoconfigure.hazelcast.HazelcastAutoConfigurati
 import org.springframework.boot.autoconfigure.hazelcast.HazelcastProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.leader.event.DefaultLeaderEventPublisher;
 import org.springframework.integration.leader.event.LeaderEventPublisher;
 import org.springframework.messaging.MessageChannel;
+import org.springframework.stereotype.Service;
 
 /**
  * This is the root autoconfigure class
@@ -79,5 +81,30 @@ public class ClusterBootAutoConfiguration{
         log.debug("Configuring LeaderEventPublisher");
 
         return new DefaultLeaderEventPublisher();
+    }
+
+    /**
+     * I put this cache into it's own service because it was easier to configure.
+     *
+     * Copyright ${year}
+     *
+     * @author J. Keith Hoopes
+     */
+    @Service("allHereCache")
+    public class AllHereCache{
+
+        private boolean allHere = false;
+
+        @Cacheable("AllHereCache")
+        public boolean isAllHere(){
+
+            return allHere;
+        }
+
+        @CachePut("AllHereCache")
+        public void setAllHere(final boolean allHere){
+
+            this.allHere = allHere;
+        }
     }
 }

@@ -26,7 +26,6 @@
     This helps me keep it more organized, and allows me some
     future flexibility in designing and adding other modules.
     -->
-    <module>wee-cluster-core</module>
     <module>wee-cluster-starter</module>
     <module>simple-cluster</module>
   </modules>
@@ -58,9 +57,9 @@
     -->
     <maven.surefire.version>2.19.1</maven.surefire.version>
     <junit.version>4.12</junit.version>
-    <junit.jupiter.version>5.1.0-RC1</junit.jupiter.version>
+    <junit.jupiter.version>5.0.3</junit.jupiter.version>
     <junit.vintage.version>${junit.version}.3</junit.vintage.version>
-    <junit.platform.version>5.1.0-RC1</junit.platform.version>
+    <junit.platform.version>1.0.3</junit.platform.version>
   </properties>
 
   <repositories>
@@ -116,7 +115,7 @@
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-dependencies</artifactId>
-        <version>Edgware.RELEASE</version>
+        <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -126,48 +125,48 @@
         <artifactId>spring-integration-hazelcast</artifactId>
         <version>1.0.0.RELEASE</version>
       </dependency>
-      <dependency>
-        <groupId>com.hazelcast</groupId>
-        <artifactId>hazelcast-all</artifactId>
-        <version>3.9.2</version>
-      </dependency>
-      <dependency>
-        <groupId>com.hazelcast</groupId>
-        <artifactId>hazelcast-spring</artifactId>
-        <version>3.9.2</version>
-      </dependency>
-      <!--TEST-->
-      <dependency>
-        <groupId>com.hazelcast</groupId>
-        <artifactId>hazelcast</artifactId>
-        <version>3.9.2</version>
-        <classifier>tests</classifier>
-        <scope>test</scope>
-      </dependency>
+      <!--<dependency>-->
+      <!--<groupId>com.hazelcast</groupId>-->
+      <!--<artifactId>hazelcast-all</artifactId>-->
+      <!--<version>3.9.2</version>-->
+      <!--</dependency>-->
+      <!--<dependency>-->
+      <!--<groupId>com.hazelcast</groupId>-->
+      <!--<artifactId>hazelcast-spring</artifactId>-->
+      <!--<version>3.9.2</version>-->
+      <!--</dependency>-->
+      <!--&lt;!&ndash;TEST&ndash;&gt;-->
+      <!--<dependency>-->
+      <!--<groupId>com.hazelcast</groupId>-->
+      <!--<artifactId>hazelcast</artifactId>-->
+      <!--<version>3.9.2</version>-->
+      <!--<classifier>tests</classifier>-->
+      <!--<scope>test</scope>-->
+      <!--</dependency>-->
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <!--Imports the tests jar for hazelcast.-->
-      <groupId>com.hazelcast</groupId>
-      <artifactId>hazelcast</artifactId>
-      <version>3.9.2</version>
-      <classifier>tests</classifier>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+    <!--&lt;!&ndash;Imports the tests jar for hazelcast.&ndash;&gt;-->
+    <!--<groupId>com.hazelcast</groupId>-->
+    <!--<artifactId>hazelcast</artifactId>-->
+    <!--<version>3.9.2</version>-->
+    <!--<classifier>tests</classifier>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+    <!--<groupId>junit</groupId>-->
+    <!--<artifactId>junit</artifactId>-->
+    <!--<version>${junit.version}</version>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <!-- Only required to run tests in an IDE that bundles an older version -->
     <dependency>
       <groupId>org.junit.platform</groupId>
@@ -193,6 +192,12 @@
     <dependency>
       <groupId>org.apiguardian</groupId>
       <artifactId>apiguardian-api</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opentest4j</groupId>
+      <artifactId>opentest4j</artifactId>
       <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
@@ -259,40 +264,7 @@
           <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter.version}</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <version>${maven.surefire.version}</version>
-        <inherited>true</inherited>
-        <configuration>
-          <includes>
-            <include>**/*ITCase.class</include>
-          </includes>
-          <excludes>
-            <exclude>**/*Test.class</exclude>
-          </excludes>
-        </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-surefire-provider</artifactId>
-            <version>${junit.platform.version}</version>
-          </dependency>
-          <!-- Only required to run tests in an IDE that bundles an older version -->
-          <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
-          </dependency>
-          <!-- Only required to run tests in an IDE that bundles an older version -->
-          <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter.version}</version>
+            <version>${junit.jupiter.version}</version>
           </dependency>
         </dependencies>
       </plugin>

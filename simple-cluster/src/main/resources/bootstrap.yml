@@ -1,7 +1,7 @@
 spring:
   application:
     name: simple-cluster
-hazelcast:
+hoopes:
   cluster-boot:
-    maxNodes: 10
+    maxNodes: 1
 

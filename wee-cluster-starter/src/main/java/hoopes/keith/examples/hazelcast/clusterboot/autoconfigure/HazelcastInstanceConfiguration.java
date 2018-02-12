@@ -2,9 +2,6 @@ package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure;
 
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
-import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.AllHereCache;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.ClusterBootProperties;
-import hoopes.keith.examples.hazelcast.clusterboot.beans.WeeLeaderCandidate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +51,7 @@ public class HazelcastInstanceConfiguration{
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     @Qualifier("allHereCache")
-    private AllHereCache allHereCache;
+    private ClusterBootAutoConfiguration.AllHereCache allHereCache;
 
     @Autowired
     @Qualifier("weeInboundLeaderMessageChannel")
@@ -64,7 +61,7 @@ public class HazelcastInstanceConfiguration{
     private LeaderEventPublisher weeLeaderEventPublisher;
 
     @ConditionalOnMissingBean(name = "weeLeaderMessageHandler", value = MessageHandler.class)
-    @ServiceActivator(inputChannel = "weeInboundLeaderMessageChannel")
+    @ServiceActivator(inputChannel = "weeInboundLeaderMessageChannel ")
     @Bean
     public MessageHandler weeLeaderMessageHandler(){
 
