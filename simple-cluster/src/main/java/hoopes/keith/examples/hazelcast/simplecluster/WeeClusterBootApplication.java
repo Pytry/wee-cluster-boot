@@ -9,11 +9,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * a lot on how I would want to configure a Spring Boot Starter
  * for Hazelcast. This is not fully realized, given the time constraints,
  * and I think there would be a lot more organization needed to get it
- * working well, and easy to understand. To help with at least the idea,
- * I followed a simple rule.
+ * working well, and easy to understand.
  *
- * Configuration should be concise, with as few class level annotations
- * as possible.
+ * I probably got too carried away with experimenting in different solutions,
+ * and trying to show off. In the end I decided to scale back and focus more
+ * on the requirements.
+ *
+ * I still created a "starter" project, but I incorporated more of the configuration
+ * that SpringBoot already has implemented.
+ *
+ * I used two different projects as examples to work from:
+ *
+ *  https://bitbucket.org/tomask79/spring-leader-hazelcast.git
+ *  https://github.com/SpringOnePlatform2016/dsyer-locks-and-leaders
  *
  * Copyright ${year}
  *

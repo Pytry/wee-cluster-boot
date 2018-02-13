@@ -1,2 +1,12 @@
 server:
   port: 0
+hoopes:
+  cluster-boot:
+    maxNodes: 10
+# DefaultCandidate logs too much at the info level.
+# Setting to 'warn' so that the desired output can
+# be read before too much has been output to the
+# console
+logging:
+  level.org.springframework: error
+  level.hoopes.keith: warn

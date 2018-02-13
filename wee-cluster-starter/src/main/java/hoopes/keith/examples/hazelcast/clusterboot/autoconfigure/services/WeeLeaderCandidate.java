@@ -5,8 +5,6 @@ import org.springframework.integration.hazelcast.inbound.HazelcastEventDrivenMes
 import org.springframework.integration.leader.Context;
 import org.springframework.integration.leader.DefaultCandidate;
 
-import java.util.UUID;
-
 /**
  * The custom leader candidate for the Wee Cluster.
  * This class is not annotated because I did not
@@ -43,7 +41,7 @@ public class WeeLeaderCandidate extends DefaultCandidate{
         super.onGranted(ctx);
         producer.start();
         allHereJobMap.put(
-            UUID.randomUUID().toString(),
+            "CheckAllHereMessage",
             clusterBootProperties.getAllHereMessage()
         );
     }

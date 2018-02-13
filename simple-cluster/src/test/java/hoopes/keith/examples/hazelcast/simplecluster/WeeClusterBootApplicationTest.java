@@ -1,6 +1,7 @@
 package hoopes.keith.examples.hazelcast.simplecluster;
 
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.ClusterBootProperties;
+import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.WeeInboundLeaderMessageHandler;
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.WeeLeaderCandidate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.integration.hazelcast.inbound.HazelcastEventDrivenMessageProducer;
 import org.springframework.integration.leader.event.LeaderEventPublisher;
 import org.springframework.messaging.MessageChannel;
-import org.springframework.messaging.MessageHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -21,8 +21,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
-    classes = WeeClusterBootApplication.class
-)
+    classes = WeeClusterBootApplication.class)
 class WeeClusterBootApplicationTest{
 
     @Qualifier("clusterBootProperties")
@@ -31,7 +30,7 @@ class WeeClusterBootApplicationTest{
 
     @Qualifier("weeInboundLeaderMessageHandler")
     @Autowired
-    private MessageHandler weeInboundLeaderMessageHandler;
+    private WeeInboundLeaderMessageHandler weeInboundLeaderMessageHandler;
 
     @Qualifier("weeLeaderCandidate")
     @Autowired

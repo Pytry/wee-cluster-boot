@@ -125,49 +125,16 @@
         <artifactId>spring-integration-hazelcast</artifactId>
         <version>1.0.0.RELEASE</version>
       </dependency>
-      <!--<dependency>-->
-      <!--<groupId>com.hazelcast</groupId>-->
-      <!--<artifactId>hazelcast-all</artifactId>-->
-      <!--<version>3.9.2</version>-->
-      <!--</dependency>-->
-      <!--<dependency>-->
-      <!--<groupId>com.hazelcast</groupId>-->
-      <!--<artifactId>hazelcast-spring</artifactId>-->
-      <!--<version>3.9.2</version>-->
-      <!--</dependency>-->
-      <!--&lt;!&ndash;TEST&ndash;&gt;-->
-      <!--<dependency>-->
-      <!--<groupId>com.hazelcast</groupId>-->
-      <!--<artifactId>hazelcast</artifactId>-->
-      <!--<version>3.9.2</version>-->
-      <!--<classifier>tests</classifier>-->
-      <!--<scope>test</scope>-->
-      <!--</dependency>-->
     </dependencies>
   </dependencyManagement>
 
   <dependencies>
-    <!--<dependency>-->
-    <!--&lt;!&ndash;Imports the tests jar for hazelcast.&ndash;&gt;-->
-    <!--<groupId>com.hazelcast</groupId>-->
-    <!--<artifactId>hazelcast</artifactId>-->
-    <!--<version>3.9.2</version>-->
-    <!--<classifier>tests</classifier>-->
-    <!--<scope>test</scope>-->
-    <!--</dependency>-->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-    <!--<groupId>junit</groupId>-->
-    <!--<artifactId>junit</artifactId>-->
-    <!--<version>${junit.version}</version>-->
-    <!--<scope>test</scope>-->
-    <!--</dependency>-->
-    <!-- Only required to run tests in an IDE that bundles an older version -->
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-launcher</artifactId>
@@ -236,7 +203,7 @@
       <!--
       It's a pain to get JUNIT5 working for maven, but if you
       already have a template for it, then it's easy peasey.
-      So here ya' go! A couple nice little templates for it.
+      So here ya' go!
       -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

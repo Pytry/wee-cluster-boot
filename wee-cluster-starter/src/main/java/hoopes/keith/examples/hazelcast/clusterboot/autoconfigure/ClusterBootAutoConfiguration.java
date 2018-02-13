@@ -14,10 +14,11 @@ import org.springframework.boot.autoconfigure.hazelcast.HazelcastInstanceFactory
 import org.springframework.boot.autoconfigure.hazelcast.HazelcastProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
-import org.springframework.integration.annotation.IntegrationComponentScan;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.hazelcast.CacheListeningPolicyType;
@@ -39,15 +40,13 @@ import java.io.IOException;
  */
 @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
 @Configuration
+@EnableCaching()
 @EnableIntegration
 @AutoConfigurationPackage
 @EnableConfigurationProperties
 @AutoConfigureBefore(HazelcastAutoConfiguration.class)
 @ConditionalOnClass({HazelcastInstance.class, HazelcastProperties.class})
-@IntegrationComponentScan({
-    "hoopes.keith.examples.hazelcast.clusterboot.autoconfigure",
-    "hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services"
-})
+@ComponentScan({"hoopes.keith.examples.hazelcast.clusterboot.autoconfigure"})
 public class ClusterBootAutoConfiguration{
 
     private static final Logger log = LoggerFactory.getLogger(ClusterBootAutoConfiguration.class);

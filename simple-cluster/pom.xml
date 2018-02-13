@@ -24,6 +24,10 @@
       <artifactId>wee-cluster-starter</artifactId>
       <version>0.0.0-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-logging</artifactId>
+    </dependency>
     <!--TODO: Review if I really need all these or not. It seems like a lot.-->
     <!--Tests-->
     <dependency>
