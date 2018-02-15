@@ -1,44 +1,28 @@
 package hoopes.keith.examples.hazelcast.simplecluster;
 
-import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.ClusterBootAutoConfiguration;
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.AllHereSentCache;
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.AllHereSentService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static java.lang.Boolean.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 
-@Configuration
-@ExtendWith(SpringExtension.class)
-@Import(ClusterBootAutoConfiguration.class)
 @TestInstance(PER_METHOD)
-@SpringBootTest(
-    webEnvironment = RANDOM_PORT,
-    classes = WeeClusterBootApplication.class)
 class AllHereSentServiceTest{
 
-    @Mock
     private AllHereSentCache allHereSentCache;
 
-    @Autowired
-    @InjectMocks
     private AllHereSentService allHereSentService;
 
-    @Test
-    void verifyLoad(){
+    @BeforeEach
+    void init(){
 
+        allHereSentCache = mock(AllHereSentCache.class);
+        allHereSentService = new AllHereSentService(allHereSentCache);
     }
 
     @Test
@@ -46,8 +30,7 @@ class AllHereSentServiceTest{
 
         doReturn(TRUE).when(allHereSentCache).get("isAllHereSent");
         assertTrue(allHereSentService.isAllHereSent());
-        verify(allHereSentCache, atLeastOnce()).get("isAllHereSent");
-        verify(allHereSentCache, atMost(1)).get("isAllHereSent");
+        verify(allHereSentCache, times(1)).get(any(String.class));
     }
 
     @Test
