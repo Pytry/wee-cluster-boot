@@ -7,8 +7,17 @@
       http://www.hazelcast.com/schema/config/hazelcast-config.xsd">
 
   <map name="AllHereSentCache">
+    <time-to-live-seconds>0</time-to-live-seconds>
+    <max-idle-seconds>0</max-idle-seconds>
     <eviction-policy>NONE</eviction-policy>
-    <max-size>1</max-size>
+    <max-size>0</max-size>
+  </map>
+
+  <map name="ALL_HERE_JOB_MAP">
+    <time-to-live-seconds>0</time-to-live-seconds>
+    <max-idle-seconds>0</max-idle-seconds>
+    <eviction-policy>NONE</eviction-policy>
+    <max-size>0</max-size>
   </map>
 
 </hazelcast>

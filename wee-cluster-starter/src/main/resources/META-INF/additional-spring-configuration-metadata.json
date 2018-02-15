@@ -1,14 +1,9 @@
 {
   "properties":[
     {
-      "name":"hazelcast.wee-cluster.maxNodes",
+      "name":"hazelcast.wee-cluster.expectedMemberCount",
       "type":"java.lang.Integer",
-      "description":"Default: 10; The number of nodes that should be created."
-    },
-    {
-      "name":"hazelcast.wee-cluster.multicastGroup",
-      "type":"java.lang.String",
-      "description":"Default: '224.0.0.1'; The group host that should be used to broadcast."
+      "description":"Default: 1; The number of nodes that should be created."
     },
     {
       "name":"hazelcast.wee-cluster.allHereMessage",

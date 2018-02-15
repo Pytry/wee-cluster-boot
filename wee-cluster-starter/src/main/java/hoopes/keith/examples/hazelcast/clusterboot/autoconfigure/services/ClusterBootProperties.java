@@ -12,8 +12,15 @@ package hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services;
  */
 public class ClusterBootProperties{
 
-    private int maxNodes = 1;
+    /**
+     * How many nodes are expected to connect to this cluster?
+     */
+    private int expectedMemberCount = 1;
 
+    /**
+     * This is a message that will be sent once all members that are expected to join
+     * have joined.
+     */
     private String allHereMessage = "All Here";
 
     public ClusterBootProperties(){
@@ -21,21 +28,21 @@ public class ClusterBootProperties{
     }
 
     public ClusterBootProperties(
-        final int maxNodes,
+        final int expectedMemberCount,
         final String allHereMessage){
 
-        this.maxNodes = maxNodes;
+        this.expectedMemberCount = expectedMemberCount;
         this.allHereMessage = allHereMessage;
     }
 
-    public int getMaxNodes(){
+    public int getExpectedMemberCount(){
 
-        return maxNodes;
+        return expectedMemberCount;
     }
 
-    public void setMaxNodes(final int maxNodes){
+    public void setExpectedMemberCount(final int expectedMemberCount){
 
-        this.maxNodes = maxNodes;
+        this.expectedMemberCount = expectedMemberCount;
     }
 
     public String getAllHereMessage(){

@@ -18,7 +18,7 @@ look back at this in a year and cringe.
 ## To Change The Message
 
 Modify "./simple-cluster/src/main/resources/application.yml" by setting 
-a value for the "hoopes.cluster-boot.allHereMessage" property.
+ot changing the value for the "hoopes.cluster-boot.allHereMessage" property.
 
 Example:
 

@@ -10,7 +10,7 @@ echo 'Continue? (y/n)'
 read answer
 
 if [ ${answer} != 'y' ]; then
-    echo "DONE"
+    echo DONE
     exit 0
 fi
 
@@ -19,8 +19,8 @@ fi
 mkdir ./target
 mkdir ./target/cluster
 
-i=0
-while [ ${i} -lt 10 ]; do
+i=1
+while [ ${i} -lt 11 ]; do
     mkdir ./target/cluster/node${i}
     cp ./simple-cluster/target/simple-cluster.jar ./target/cluster/node${i}
     java -jar target/cluster/node${i}/simple-cluster.jar &

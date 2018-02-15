@@ -4,6 +4,7 @@ import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.Cluste
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.WeeInboundLeaderMessageHandler;
 import hoopes.keith.examples.hazelcast.clusterboot.autoconfigure.services.WeeLeaderCandidate;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,11 +15,13 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.junit.jupiter.api.TestInstance.Lifecycle.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.*;
 
 @SuppressWarnings("unused")
 @Component
 @ExtendWith(SpringExtension.class)
+@TestInstance(PER_CLASS)
 @SpringBootTest(
     webEnvironment = RANDOM_PORT,
     classes = WeeClusterBootApplication.class)

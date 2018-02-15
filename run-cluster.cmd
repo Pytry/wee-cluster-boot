@@ -11,7 +11,7 @@ call mvnw -U clean install
 mkdir target
 mkdir target\cluster
 
-FOR /L %%i IN (8080,1,8089) DO (
+FOR /L %%i IN (1,1,10) DO (
     mkdir target\cluster\node%%i
     copy simple-cluster\target\simple-cluster.jar target\cluster\node%%i
     start cmd.exe /K java -Dserver.port=%%i -jar target\cluster\node%%i\simple-cluster.jar
@@ -19,11 +19,8 @@ FOR /L %%i IN (8080,1,8089) DO (
 GOTO end
 
 :needJava
-echo
 echo The run-cluster script requires 'Java 8' to be installed
 :abort
-echo
 echo Aborting Cluster Startup
 :end
-echo
 echo DONE

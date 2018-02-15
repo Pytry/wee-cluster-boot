@@ -51,6 +51,7 @@
     <java.version>1.8</java.version>
     <!--Dependency Versions-->
     <spring-cloud.version>Edgware.SR1</spring-cloud.version>
+    <hazelcast.version>3.9.2</hazelcast.version>
     <!--
     Note: Surefire 2.19.1 is the latest provider that works with JUNIT5.
     2.20.0 and up is borked.
@@ -129,6 +130,13 @@
   </dependencyManagement>
 
   <dependencies>
+    <!--
+    I must say, this was rather annoying to get working with JUNIT5.
+    The lack of adequate support and the presence of certain bugs with
+    versions of the surefire plugin and jupiter classes has really
+    made me not want to use JUNIT5 with maven ever again. Maybe there's
+    better support in Gradle?
+    -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
@@ -148,13 +156,13 @@
       <version>${junit.jupiter.version}</version>
       <scope>test</scope>
     </dependency>
-    <!-- Only required to run tests in an IDE that bundles an older version -->
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>${junit.vintage.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <!--&lt;!&ndash; Only required to run tests in an IDE that bundles an older version &ndash;&gt;-->
+    <!--<dependency>-->
+    <!--<groupId>org.junit.vintage</groupId>-->
+    <!--<artifactId>junit-vintage-engine</artifactId>-->
+    <!--<version>${junit.vintage.version}</version>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
     <!-- To avoid compiler warnings about @API annotations in JUnit code -->
     <dependency>
       <groupId>org.apiguardian</groupId>
@@ -162,12 +170,12 @@
       <version>1.0.0</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.opentest4j</groupId>
-      <artifactId>opentest4j</artifactId>
-      <version>1.0.0</version>
-      <scope>test</scope>
-    </dependency>
+    <!--<dependency>-->
+    <!--<groupId>org.opentest4j</groupId>-->
+    <!--<artifactId>opentest4j</artifactId>-->
+    <!--<version>1.0.0</version>-->
+    <!--<scope>test</scope>-->
+    <!--</dependency>-->
   </dependencies>
 
   <build>

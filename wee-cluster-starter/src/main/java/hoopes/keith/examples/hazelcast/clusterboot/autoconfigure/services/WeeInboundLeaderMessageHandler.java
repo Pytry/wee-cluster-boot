@@ -116,7 +116,7 @@ public class WeeInboundLeaderMessageHandler implements MessageHandler{
 
         return hazelcastInstanceConfiguration
             .clusterBootProperties()
-            .getMaxNodes();
+            .getExpectedMemberCount();
     }
 
     private void printMessage(final String message){
