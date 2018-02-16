@@ -1,6 +1,6 @@
 server:
   port: 0
-hoopes:
+xitikit:
   cluster-boot:
     expectedMemberCount: 10
 # DefaultCandidate logs too much at the info level.
@@ -9,4 +9,4 @@ hoopes:
 # console
 logging:
   level.org.springframework: error
-  level.hoopes.keith: warn
+  level.org.xitikit.examples: warn

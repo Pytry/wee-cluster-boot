@@ -1,5 +1,5 @@
 server:
   port: 0
-hoopes:
+xitikit:
   cluster-boot:
     expectedMemberCount: 1
