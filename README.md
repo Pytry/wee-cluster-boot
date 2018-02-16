@@ -46,3 +46,8 @@ the terminal closes, but I cannot make any promises.
 
 Google it :)
 
+## Other Examples I found
+
+https://bitbucket.org/tomask79/spring-leader-hazelcast.git
+https://github.com/SpringOnePlatform2016/dsyer-locks-and-leaders
+
